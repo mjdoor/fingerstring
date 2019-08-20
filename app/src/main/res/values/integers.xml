@@ -1,0 +1,6 @@
+<resources>
+    <integer name="setting_reminder_time_default">9</integer>
+    <integer name="setting_reminder_advance_default">1</integer>
+    <integer name="setting_upcoming_cutoff_default">3</integer>
+    <integer name="setting_deletion_age_default">1</integer>
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewAppointmentsActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/viewAppointmentsBack"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:gravity="center_horizontal|top"
+            android:onClick="backClick"
+            android:text="@string/back_button"
+            android:textSize="14sp" />
+
+        <com.applandeo.materialcalendarview.CalendarView
+            android:id="@+id/viewAppointmentsCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:eventsEnabled="true"
+            app:headerColor="@color/card_background"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:selectionColor="@color/highlight_colour"
+            app:todayLabelColor="@color/colorAccent"
+            app:type="one_day_picker" />
+
+        <TextView
+            android:id="@+id/viewAppointmentDateTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/allAppointmentsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="0dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

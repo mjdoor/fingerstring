@@ -1,0 +1,155 @@
+<resources>
+    <string name="app_name">MDooreleyersProject1</string>
+    <string name="about_title">About</string>
+    <string name="settings_title">Settings</string>
+    <string name="update_settings">Update Settings</string>
+    <string name="update_settings_success">Settings successfully updated</string>
+    <string name="update_settings_back">No settings changed</string>
+    <string name="update_settings_error">You must provide an appointment type</string>
+    <string name="setting_appointment_type">What type of appointment do you offer?</string>
+    <string name="setting_appointment_type_default">massage</string>
+    <string name="setting_reminder_time">What time do you want automatic reminders to be sent each day?</string>
+    <string name="setting_reminder_advance">How many days in advance do you want your clients to be reminded of their appointments?</string>
+    <string name="setting_upcoming_cutoff">How far in the future should the Upcoming Appointments menu on the main page capture?</string>
+    <string name="setting_auto_delete">How old should appointments be before they are automatically deleted?</string>
+    <string name="setting_should_auto_delete">Don\'t auto-delete old appointments</string>
+    <string name="word_days">(days)</string>
+    <string name="word_weeks">(weeks)</string>
+    <string name="heading">FingerString Appointments</string>
+    <string name="my_name">Mitchell Dooreleyers</string>
+    <string name="add_appointment">New Appointment</string>
+    <string name="reschedule_appointment">Reschedule Appointment</string>
+    <string name="manage_appointments">View Appointments</string>
+    <string name="reschedule_button">Reschedule</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="call_button">Call</string>
+    <string name="text_button">Text</string>
+    <string name="upcoming_appointments">Upcoming Appointments</string>
+    <string name="no_upcoming_appointments">No Upcoming Appointments</string>
+    <string name="view_day_appointments">Appointments for</string>
+    <string name="view_day_appointments_none">No appointments for</string>
+    <string name="today_appointment_time">Default time</string>
+    <string name="client_info">Client Information</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="appointment_info">Appointment Information</string>
+    <string name="start_time">Start Time</string>
+    <string name="duration">Duration (mins)</string>
+    <string name="date">Date</string>
+    <string name="create_appointment">Book It!</string>
+    <string name="conflicting_appointment_message">Unable to book because the date/time specified would conflict with another appointment:</string>
+    <string name="title_activity_add_appointment">AddAppointmentActivity</string>
+    <string name="back_button">Back</string>
+    <string name="back_toast_message">No appointment saved</string>
+    <string-array name="hours">
+        <item>12</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+    </string-array>
+    <string-array name="minutes">
+        <item>00</item>
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+    </string-array>
+    <string-array name="ampm">
+        <item>AM</item>
+        <item>PM</item>
+    </string-array>
+    <string-array name="durations">
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>75</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
+    <string-array name="days">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="deletion_age_weeks">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string name="reminder_not_sent">Reminder not yet sent</string>
+    <string name="reminder_sent">Reminder sent</string>
+    <string name="reminder_failed">Reminder failed to send</string>
+    <string name="confirm_cancel">Cancelling Appointment</string>
+    <string name="cancelled_appointment">Appointment Cancelled</string>
+    <string name="cancelling_error">An error occurred attempting to cancel that appointment</string>
+    <string name="updating_error">An error occurred attempting to update the appointment</string>
+    <string name="confirm">Yes</string>
+    <string name="deny">No</string>
+    <string name="notification_description">FingerString Notifications</string>
+    <string name="notification_title_sent">FingerString Automatic Reminders</string>
+    <string name="notification_auto_remind_sent">Tomorrow\'s clients just got their reminders!</string>
+    <string name="notification_title_failed">FingerString Permissions</string>
+    <string name="notification_auto_remind_permissions">Automatic reminders failed. Tap here to adjust permissions.</string>
+    <string name="permissions_warning">SMS and phone management permissions are required in order to send automatic reminders. Go to your settings to turn on SMS and Phone permissions for this app.</string>
+    <string name="about_info">
+        <![CDATA[
+            <h1>FingerString Appointments</h1>
+            <h5>created by: Mitchell Dooreleyers</h5>
+
+            <p>The purpose of this app is to help you organize all of your appointment bookings for your clients, and to help them remember their appointment times.</p>
+
+            <p>This app is perfect for anyone with a small business who books clients regularly, and needs a simple and effective way to manage appointment scheduling and reminders.</p>
+
+            <p>All you have to do is enter an appointment with the client\'s name, phone number, and the appointment date. Then, as the appointment approaches, each client will get a personalized text message reminding him/her about the appointment.</p>
+
+            <p>Before you begin using this app, ensure you have allowed SMS and phone permissions in order for the automatic reminders to work properly. You would have been prompted to turn these permissions on when you first opened the app.</p>
+
+            <h2>Usage</h2>
+            <p>To book an appointment, tap the <b>New Appointment</b> button on the home screen. Once there, fill in your client\'s information, and the associated appointment information, on the appropriate tabs.
+            Then, tap <b>Book It!</b> to save your appointment.<p>
+
+            <p>Any upcoming appointments will appear on the main page. You can reschedule or cancel these appointments by tapping the available buttons. Plus, you can start a text conversation with your client, or call them directly, from the same menu.</p>
+
+            <p>To view all saved appointments, not just those occurring soon, tap the <b>View Appointments</b> button on the main page.
+                This will bring you to a calendar, which indicates every day you have at least one appointment booked with a blue circle icon.
+            </p>
+            <p>On the View Appointments page, select a day to see the appointments scheduled for that day. You can reschedule and cancel appointments, and contact your clients from there as well.</p>
+
+            <h2>Customizable Settings</h2>
+            <p>Open the Settings menu by tapping the wrench icon at the top right of the main page.</p>
+            <p>In Settings, you can specify:</p>
+            <ul>
+                <li>&nbsp;The type of service you provide (which will be used to describe your clients\' appointments in their text reminders)</li>
+                <li>&nbsp;What time of day automatic reminders will be sent</li>
+                <li>&nbsp;How far in advance of the appointment automatic reminders will be sent to clients</li>
+                <li>&nbsp;How far in the future the Upcoming Appointments menu on the main page will capture</li>
+                <li>&nbsp;When, if at all, to automatically delete old appointments</li>
+            </ul>
+
+            <h2>Features:</h2>
+            <ul>
+                <li>&nbsp;Every day, FingerString will automatically send a reminder text to all of your clients whose appointments have entered the advance notice time frame, as defined in Settings.</li>
+                <li>&nbsp;Unless you have no appointments within this time frame, you will get a notification when reminders are sent.<br/>
+                    &emsp; - If your permissions are properly set, the notification will simply inform you that reminders were sent.<br/>
+                    &emsp; - If permissions aren't set, tapping the notification will bring you to your phone's settings to change the app's permissions.
+                </li>
+                <li>&nbsp;For each appointment, the reminder status will appear to the right of the client's name. If a reminder failed to send, it may be because your permissions were not set at reminder time, or the phone number for the client is formatted incorrectly.</li>
+                <li>&nbsp;Even if your advance notice time frame is multiple days, each client will only receive one reminder per appointment.</li>
+                <li>&nbsp;If you reschedule an existing appointment to a date more than one day away, a reminder with the rescheduled date will be sent to the client at the next scheduled automatic reminder time.</li>
+                <li>&nbsp;You don\'t have to worry about accidentally double booking yourself. When creating and rescheduling appointments, FingerString ensures that no overlap exists between appointments.</li>
+                <li>&nbsp;To declutter your calendar, appointments will be automatically deleted if they are older than the age specified in Settings. However, if you wish to keep all past appointments, you can turn off automatic deletion in Settings.</li>
+            </ul>
+    ]]>
+    </string>
+</resources>
