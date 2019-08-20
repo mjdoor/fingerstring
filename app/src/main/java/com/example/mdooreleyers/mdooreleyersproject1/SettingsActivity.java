@@ -17,8 +17,6 @@ public class SettingsActivity extends AppCompatActivity {
     Spinner reminderAmPm;
     Spinner reminderAdvanceTime;
     Spinner upcomingAppointmentCutoff;
-    Spinner deletionAge;
-    CheckBox shouldAutoDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,23 +28,6 @@ public class SettingsActivity extends AppCompatActivity {
         reminderAmPm = (Spinner)findViewById(R.id.settingReminderAmPm);
         reminderAdvanceTime = (Spinner)findViewById(R.id.settingReminderAdvance);
         upcomingAppointmentCutoff = (Spinner)findViewById(R.id.settingUpcomingCutoff);
-        deletionAge = (Spinner)findViewById(R.id.settingDeletionAge);
-        shouldAutoDelete = (CheckBox)findViewById(R.id.settingShouldAutoDelete);
-        // define onClick for auto-delete check box (enable/disable deletion age spinner)
-        shouldAutoDelete.setOnClickListener(new CheckBox.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(shouldAutoDelete.isChecked())
-                {
-                    // disable deletion age spinner
-                    deletionAge.setEnabled(false);
-                }
-                else
-                {
-                    deletionAge.setEnabled(true);
-                }
-            }
-        });
 
         setupDefaults();
     }
@@ -54,9 +35,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        // this is here to maintain if deletionAge spinner is enabled or not depending on shouldAutoDelete check box if the screen orientation changes
-        deletionAge.setEnabled(!shouldAutoDelete.isChecked());
     }
 
     // Sets the text fields and values of spinners depending on existing preferences
@@ -84,13 +62,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Upcoming cutoff
         upcomingAppointmentCutoff.setSelection(SharedPreferenceUtility.getIntPreference(this, "settingUpcomingCutoff", getResources().getInteger(R.integer.setting_upcoming_cutoff_default)) - 1);
-
-        // Deletion age
-        deletionAge.setSelection(SharedPreferenceUtility.getIntPreference(this, "settingDeletionAge", getResources().getInteger(R.integer.setting_deletion_age_default)) - 1);
-
-        // Should auto-delete
-        shouldAutoDelete.setChecked(!SharedPreferenceUtility.getBooleanPreference(this, "settingShouldAutoDelete", getResources().getBoolean(R.bool.setting_should_auto_delete)));
-        deletionAge.setEnabled(!shouldAutoDelete.isChecked());
     }
 
     public void updateClick(View view) {
@@ -119,11 +90,6 @@ public class SettingsActivity extends AppCompatActivity {
         // Upcoming Cutoff Time
         editor.putInt("settingUpcomingCutoff", Integer.parseInt(upcomingAppointmentCutoff.getSelectedItem().toString()));
 
-        // Deletion Age
-        editor.putInt("settingDeletionAge", Integer.parseInt(deletionAge.getSelectedItem().toString()));
-
-        // Should auto-delete
-        editor.putBoolean("settingShouldAutoDelete", !shouldAutoDelete.isChecked());
         editor.apply();
 
         Toast.makeText(this, R.string.update_settings_success, Toast.LENGTH_SHORT).show();

@@ -117,12 +117,6 @@ public class AutomatedTexter extends BroadcastReceiver {
                         notificationMessage);
             }
         }
-
-        // In addition to sending text reminders, use this event to delete old appointments (if settings allow)
-        if(SharedPreferenceUtility.getBooleanPreference(context, "settingShouldAutoDelete", context.getResources().getBoolean(R.bool.setting_should_auto_delete)))
-        {
-            deleteOldAppointments(context, now);
-        }
     }
 
     // Include the method here that will set up the alarm for sending automatic texts. We are using setExact for the alarm, which doesn't support repeating, so we have to set the next alarm when an alarm fires
@@ -197,13 +191,4 @@ public class AutomatedTexter extends BroadcastReceiver {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
     // END NOTIFICATION CODE
-
-    private void deleteOldAppointments(Context context, long currentTime)
-    {
-        //  Want to delete appointments more than a week old
-        int ageInWeeks = SharedPreferenceUtility.getIntPreference(context, "settingDeletionAge", context.getResources().getInteger(R.integer.setting_deletion_age_default));
-        long cutOff = currentTime - ageInWeeks * TimeConstants.MILLISECONDS_PER_WEEK;
-        AppointmentDatabase.getInstance(context).appointmentDAO().deleteAppointmentsBeforeDate(cutOff);
-    }
-
 }

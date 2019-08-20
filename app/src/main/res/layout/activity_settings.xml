@@ -126,41 +126,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/vertical_layout_spacing"
-                android:text="@string/setting_auto_delete" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Spinner
-                    android:id="@+id/settingDeletionAge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/deletion_age_weeks" />
-
-                <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/word_weeks" />
-            </LinearLayout>
-
-            <CheckBox
-                android:id="@+id/settingShouldAutoDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_weight="1"
-                android:text="@string/setting_should_auto_delete"
-                android:textColor="#D83F3F3F" />
-
         </LinearLayout>
     </ScrollView>
 

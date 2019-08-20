@@ -11,8 +11,6 @@
     <string name="setting_reminder_time">What time do you want automatic reminders to be sent each day?</string>
     <string name="setting_reminder_advance">How many days in advance do you want your clients to be reminded of their appointments?</string>
     <string name="setting_upcoming_cutoff">How far in the future should the Upcoming Appointments menu on the main page capture?</string>
-    <string name="setting_auto_delete">How old should appointments be before they are automatically deleted?</string>
-    <string name="setting_should_auto_delete">Don\'t auto-delete old appointments</string>
     <string name="word_days">(days)</string>
     <string name="word_weeks">(weeks)</string>
     <string name="heading">FingerString Appointments</string>
@@ -81,12 +79,6 @@
         <item>4</item>
         <item>5</item>
     </string-array>
-    <string-array name="deletion_age_weeks">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
     <string name="reminder_not_sent">Reminder not yet sent</string>
     <string name="reminder_sent">Reminder sent</string>
     <string name="reminder_failed">Reminder failed to send</string>
@@ -134,7 +126,6 @@
                 <li>&nbsp;What time of day automatic reminders will be sent</li>
                 <li>&nbsp;How far in advance of the appointment automatic reminders will be sent to clients</li>
                 <li>&nbsp;How far in the future the Upcoming Appointments menu on the main page will capture</li>
-                <li>&nbsp;When, if at all, to automatically delete old appointments</li>
             </ul>
 
             <h2>Features:</h2>
@@ -148,7 +139,6 @@
                 <li>&nbsp;Even if your advance notice time frame is multiple days, each client will only receive one reminder per appointment.</li>
                 <li>&nbsp;If you reschedule an existing appointment to a date more than one day away, a reminder with the rescheduled date will be sent to the client at the next scheduled automatic reminder time.</li>
                 <li>&nbsp;You don\'t have to worry about accidentally double booking yourself. When creating and rescheduling appointments, FingerString ensures that no overlap exists between appointments.</li>
-                <li>&nbsp;To declutter your calendar, appointments will be automatically deleted if they are older than the age specified in Settings. However, if you wish to keep all past appointments, you can turn off automatic deletion in Settings.</li>
             </ul>
     ]]>
     </string>
