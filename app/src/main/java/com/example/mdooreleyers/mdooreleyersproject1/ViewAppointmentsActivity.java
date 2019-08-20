@@ -163,8 +163,19 @@ public class ViewAppointmentsActivity extends AppCompatActivity implements Appoi
             uniqDays.add(dayCal);
         }
 
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        long todayTime = today.getTimeInMillis();
+
         List<EventDay> appointmentDays = new ArrayList<EventDay>();
-        for(Iterator<Calendar> it = uniqDays.iterator(); it.hasNext(); appointmentDays.add(new EventDay(it.next(), R.drawable.appointment_icon)));
+        for(Iterator<Calendar> it = uniqDays.iterator(); it.hasNext(); /*nothing*/)
+        {
+            Calendar cal = it.next(); //advances the loop
+            appointmentDays.add(new EventDay(cal, (cal.getTimeInMillis() < todayTime ? R.drawable.appointment_icon_past : R.drawable.appointment_icon))); //sets different icon for old appointments vs present/future appointments
+        };
         calendarView.setEvents(appointmentDays);
     }
 
