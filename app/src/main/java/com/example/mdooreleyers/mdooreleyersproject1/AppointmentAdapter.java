@@ -68,10 +68,11 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     @Override
     public void onBindViewHolder(final AppointmentAdapter.ViewHolder viewHolder, final int position) {
         final Appointment app = appointments.get(position);
+        Client clnt = AppointmentDatabase.getInstance(context).clientDAO().getClientByID(app.getClientID());
 
         // set values for appointment
         viewHolder.appointmentTimeBox.setText(app.getTimeSpan());
-        viewHolder.clientNameBox.setText(app.getFullName());
+        viewHolder.clientNameBox.setText(clnt.getFullName());
 
         if(app.getReminderStatus().equals(Appointment.ReminderStatus.NOT_SENT.toString()))
         {
@@ -107,7 +108,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setData(Uri.parse("smsto:"));  // This ensures only SMS apps respond
                 intent.setType("text/plain");
-                intent.putExtra("address", app.getPhoneNumber());
+                intent.putExtra("address", clnt.getPhoneNumber());
                 if (intent.resolveActivity(context.getPackageManager()) != null) {
                     context.startActivity(intent);
                 }
@@ -125,7 +126,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 else
                 {   // Permission already granted
                     try {
-                        String fullNumber = "tel:" + app.getPhoneNumber();
+                        String fullNumber = "tel:" + clnt.getPhoneNumber();
                         Intent intent = new Intent(Intent.ACTION_CALL);
                         intent.setData(Uri.parse(fullNumber));
                         context.startActivity(intent);
@@ -144,7 +145,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             public void onClick(View view) {
                 new AlertDialog.Builder(context) // set up confirmation box for deleting appointment
                         .setTitle(R.string.confirm_cancel)
-                        .setMessage("Are you sure you want to cancel " + app.getFirstName() + "'s appointment?")
+                        .setMessage("Are you sure you want to cancel " + clnt.getFirstName() + "'s appointment?")
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int btn) {

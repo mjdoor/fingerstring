@@ -26,6 +26,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
     private NewAppointmentFragment appointmentInfoFragment;
 
     private Appointment appointment;
+    private Client client;
 
     private Button scheduleBtn;
 
@@ -77,6 +78,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
             case "update":
                 int aptID = getIntent().getExtras().getInt("aptID");
                 this.appointment = AppointmentDatabase.getInstance(this).appointmentDAO().getAppointmentById(aptID);
+                this.client = AppointmentDatabase.getInstance(this).clientDAO().getClientByID(this.appointment.getClientID());
                 scheduleBtn.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View view) {
@@ -91,9 +93,9 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
     public void onClientInfoFragCreated() {
         if(getIntent().getExtras().getString("request_type").equals("update"))
         {
-            clientInfoFragment.setFirstName(this.appointment.getFirstName());
-            clientInfoFragment.setLastName(this.appointment.getLastName());
-            clientInfoFragment.setPhoneNumber(this.appointment.getPhoneNumber());
+            clientInfoFragment.setFirstName(this.client.getFirstName());
+            clientInfoFragment.setLastName(this.client.getLastName());
+            clientInfoFragment.setPhoneNumber(this.client.getPhoneNumber());
         }
     }
 
@@ -135,23 +137,31 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
         int duration = appointmentInfoFragment.getDuration();
         long dateTime = appointmentInfoFragment.getDateTime();
 
-        Appointment apt = new Appointment(firstName, lastName, phoneNumber, dateTime, duration);
-
-        // Book appointment. CHECK FOR CONFLICTS FIRST
-        AppointmentDAO aptDAO = AppointmentDatabase.getInstance(this).appointmentDAO();
-        Appointment conflictingAppointment = aptDAO.checkConflicts(0, apt.getStartTime(), apt.getEndTime());
-        if(conflictingAppointment != null)
+        // setup transaction for adding client and appointment. using lambda function to represent new Runnable, which runIntransaction uses
+        // TODO: change for when we can select existing clients
+        AppointmentDatabase.getInstance(this).runInTransaction(() ->
         {
-            popConflictingAppointmentToast(conflictingAppointment);
-        }
-        else
-        {
-            aptDAO.bookAppointment(apt);
+            Client clnt = new Client(firstName, lastName, phoneNumber);
+            long newClientID = AppointmentDatabase.getInstance(this).clientDAO().addClient(clnt);
 
-            Toast.makeText(getApplicationContext(), "Appointment made for " + apt.getFullName(), Toast.LENGTH_LONG).show();
+            Appointment apt = new Appointment(newClientID, dateTime, duration);
 
-            finish();
-        }
+            // Book appointment. CHECK FOR CONFLICTS FIRST
+            AppointmentDAO aptDAO = AppointmentDatabase.getInstance(this).appointmentDAO();
+            Appointment conflictingAppointment = aptDAO.checkConflicts(0, apt.getStartTime(), apt.getEndTime());
+            if(conflictingAppointment != null)
+            {
+                popConflictingAppointmentToast(conflictingAppointment);
+            }
+            else
+            {
+                aptDAO.bookAppointment(apt);
+
+                Toast.makeText(getApplicationContext(), "Appointment made for " + clnt.getFullName(), Toast.LENGTH_LONG).show();
+
+                finish();
+            }
+        });
     }
 
     private void updateAppointment()
@@ -161,9 +171,11 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
             Toast.makeText(this, R.string.updating_error, Toast.LENGTH_SHORT).show();
             finish();
         }
-        this.appointment.setFirstName(clientInfoFragment.getFirstName());
-        this.appointment.setLastName(clientInfoFragment.getLastName());
-        this.appointment.setPhoneNumber(clientInfoFragment.getPhoneNumber());
+
+        //TODO: update for when we can select existing clients
+        this.client.setFirstName(clientInfoFragment.getFirstName());
+        this.client.setLastName(clientInfoFragment.getLastName());
+        this.client.setPhoneNumber(clientInfoFragment.getPhoneNumber());
         this.appointment.setStartTime(appointmentInfoFragment.getDateTime());
         this.appointment.setDuration(appointmentInfoFragment.getDuration());
 
@@ -187,7 +199,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
             }
             AppointmentDatabase.getInstance(this).appointmentDAO().updateAppointment(this.appointment);
 
-            Toast.makeText(getApplicationContext(), "Appointment rescheduled for " + this.appointment.getFullName(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Appointment rescheduled for " + this.client.getFullName(), Toast.LENGTH_LONG).show();
 
             finish();
         }
@@ -195,7 +207,8 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
 
     private void popConflictingAppointmentToast(Appointment conflictingAppointment)
     {
-        String message = getResources().getString(R.string.conflicting_appointment_message) + "\n" + conflictingAppointment.getFullName() + ", " + conflictingAppointment.getTimeSpan();
+        Client conflictingClient  = AppointmentDatabase.getInstance(this).clientDAO().getClientByID(conflictingAppointment.getClientID());
+        String message = getResources().getString(R.string.conflicting_appointment_message) + "\n" + conflictingClient.getFullName() + ", " + conflictingAppointment.getTimeSpan();
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
