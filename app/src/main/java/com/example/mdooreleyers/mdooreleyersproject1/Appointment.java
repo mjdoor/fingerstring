@@ -53,7 +53,7 @@ public class Appointment {
 
     public long getClientID() { return clientID;  }
 
-    public void setClientID(int clientID) {   this.clientID = clientID;   }
+    public void setClientID(long clientID) {   this.clientID = clientID;   }
 
     public long getStartTime() {
         return startTime;

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Dao
 public interface ClientDAO {
-    @Query("SELECT * FROM client")
+    @Query("SELECT * FROM client ORDER BY lastName")
     List<Client> getAll();
 
     @Query("SELECT * FROM client WHERE clientID = :id")

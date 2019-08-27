@@ -35,6 +35,10 @@
     <string name="start_time">Start Time</string>
     <string name="duration">Duration (mins)</string>
     <string name="date">Date</string>
+    <string name="create_client">Adding New Client</string>
+    <string name="choose_client">Choosing Existing Client</string>
+    <string name="create_client_btn">Tap Here to Book A New Client</string>
+    <string name="choose_client_btn">Tap Here to Choose An Existing Client</string>
     <string name="create_appointment">Book It!</string>
     <string name="conflicting_appointment_message">Unable to book because the date/time specified would conflict with another appointment:</string>
     <string name="title_activity_add_appointment">AddAppointmentActivity</string>
