@@ -77,6 +77,7 @@ public class AutomatedTexter extends BroadcastReceiver {
             for(int i = 0; i < appointmentsToRemind.size(); i++)
             {
                 Appointment apt = appointmentsToRemind.get(i);
+                Client clnt = AppointmentDatabase.getInstance(context).clientDAO().getClientByID(apt.getClientID());
                 // Prevent any appointments that have already had a reminder sent, have ANOTHER reminder sent
                 if(apt.getReminderStatus().equals(Appointment.ReminderStatus.SENT.toString()))
                 {
@@ -86,10 +87,10 @@ public class AutomatedTexter extends BroadcastReceiver {
                 try
                 {
                     String appointmentType = SharedPreferenceUtility.getStringPreference(context, "settingAppointmentType", context.getResources().getString(R.string.setting_appointment_type_default)).toLowerCase();
-                    String message = "Hi " + apt.getFirstName() +
+                    String message = "Hi " + clnt.getFirstName() +
                             "! This text is just reminding you of your upcoming " + appointmentType + " appointment, booked for " + apt.getDateTimeString() +
                             " See you then :)";
-                    manager.sendTextMessage(apt.getPhoneNumber(),null,message,null,null);
+                    manager.sendTextMessage(clnt.getPhoneNumber(),null,message,null,null);
                     apt.setReminderStatus(Appointment.ReminderStatus.SENT.toString());
                     sendCount++;
                 }

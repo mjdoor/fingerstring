@@ -1,5 +1,6 @@
 package com.example.mdooreleyers.mdooreleyersproject1;
 
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class AddAppointmentActivity extends AppCompatActivity implements InflaterListener {
 
@@ -26,8 +28,11 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
     private NewAppointmentFragment appointmentInfoFragment;
 
     private Appointment appointment;
+    private Client client;
 
     private Button scheduleBtn;
+
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
         viewPager = (ViewPager)findViewById(R.id.newAppointmentViewPager);
         setupViewPager(viewPager, newAppointmentPageAdapter);
 
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.infoTabs);
+        tabLayout = (TabLayout)findViewById(R.id.infoTabs);
         tabLayout.setupWithViewPager(viewPager);
         // If we are rescheduling an appointment, have the opening tab be the Appointment Info tab, (index 1)
         if(getIntent().getExtras().getString("request_type").equals("update"))
@@ -77,6 +82,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
             case "update":
                 int aptID = getIntent().getExtras().getInt("aptID");
                 this.appointment = AppointmentDatabase.getInstance(this).appointmentDAO().getAppointmentById(aptID);
+                this.client = AppointmentDatabase.getInstance(this).clientDAO().getClientByID(this.appointment.getClientID());
                 scheduleBtn.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View view) {
@@ -89,11 +95,14 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
 
     @Override
     public void onClientInfoFragCreated() {
+        // Get all clients
+        List<Client> allClients = AppointmentDatabase.getInstance(this).clientDAO().getAll();
+        // populate the recycler here
+        clientInfoFragment.setupClientRecycler(allClients);
+
         if(getIntent().getExtras().getString("request_type").equals("update"))
         {
-            clientInfoFragment.setFirstName(this.appointment.getFirstName());
-            clientInfoFragment.setLastName(this.appointment.getLastName());
-            clientInfoFragment.setPhoneNumber(this.appointment.getPhoneNumber());
+            clientInfoFragment.setSelectedClient(this.client.getClientID());
         }
     }
 
@@ -128,30 +137,62 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
 
 
     private void createAppointment() {
-        String firstName = clientInfoFragment.getFirstName();
-        String lastName = clientInfoFragment.getLastName();
-        String phoneNumber = clientInfoFragment.getPhoneNumber();
-
         int duration = appointmentInfoFragment.getDuration();
         long dateTime = appointmentInfoFragment.getDateTime();
 
-        Appointment apt = new Appointment(firstName, lastName, phoneNumber, dateTime, duration);
-
-        // Book appointment. CHECK FOR CONFLICTS FIRST
-        AppointmentDAO aptDAO = AppointmentDatabase.getInstance(this).appointmentDAO();
-        Appointment conflictingAppointment = aptDAO.checkConflicts(0, apt.getStartTime(), apt.getEndTime());
-        if(conflictingAppointment != null)
+        // setup transaction for adding client and appointment. using lambda function to represent new Runnable, which runIntransaction uses
+        AppointmentDatabase.getInstance(this).beginTransaction();
+        //transaction block
         {
-            popConflictingAppointmentToast(conflictingAppointment);
-        }
-        else
-        {
-            aptDAO.bookAppointment(apt);
+            long clientID=0;
+            if(clientInfoFragment.isCreatingNewClient())
+            {
+                String firstName = clientInfoFragment.getFirstName();
+                String lastName = clientInfoFragment.getLastName();
+                String phoneNumber = clientInfoFragment.getPhoneNumber();
 
-            Toast.makeText(getApplicationContext(), "Appointment made for " + apt.getFullName(), Toast.LENGTH_LONG).show();
+                Client clnt = new Client(firstName, lastName, phoneNumber);
 
-            finish();
+                try
+                {
+                    clientID = AppointmentDatabase.getInstance(this).clientDAO().addClient(clnt);
+                }
+                catch(SQLiteConstraintException ex) // will throw an error if a new client is attempted to be created with the same phone number as an existing client
+                {
+                    AppointmentDatabase.getInstance(this).endTransaction();
+                    Toast.makeText(getApplicationContext(), "The phone number you've supplied for this appointment's new client is already in use by another client. Please check the phone number, or select the existing client from the list.", Toast.LENGTH_LONG).show();
+                    tabLayout.getTabAt(0).select();
+
+                    return;
+                }
+            }
+            else
+            {
+                clientID = clientInfoFragment.getSelectedClientID();
+            }
+
+            Appointment apt = new Appointment(clientID, dateTime, duration);
+
+            // Book appointment. CHECK FOR CONFLICTS FIRST
+            AppointmentDAO aptDAO = AppointmentDatabase.getInstance(this).appointmentDAO();
+            Appointment conflictingAppointment = aptDAO.checkConflicts(0, apt.getStartTime(), apt.getEndTime());
+            if(conflictingAppointment != null)
+            {
+                popConflictingAppointmentToast(conflictingAppointment);
+                AppointmentDatabase.getInstance(this).endTransaction();
+            }
+            else
+            {
+                aptDAO.bookAppointment(apt);
+                AppointmentDatabase.getInstance(this).setTransactionSuccessful();
+                AppointmentDatabase.getInstance(this).endTransaction();
+
+                Toast.makeText(getApplicationContext(), "Appointment made for " + AppointmentDatabase.getInstance(this).clientDAO().getClientByID(clientID).getFullName(), Toast.LENGTH_LONG).show();
+
+                finish();
+            }
         }
+        // end transaction block
     }
 
     private void updateAppointment()
@@ -161,9 +202,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
             Toast.makeText(this, R.string.updating_error, Toast.LENGTH_SHORT).show();
             finish();
         }
-        this.appointment.setFirstName(clientInfoFragment.getFirstName());
-        this.appointment.setLastName(clientInfoFragment.getLastName());
-        this.appointment.setPhoneNumber(clientInfoFragment.getPhoneNumber());
+
         this.appointment.setStartTime(appointmentInfoFragment.getDateTime());
         this.appointment.setDuration(appointmentInfoFragment.getDuration());
 
@@ -178,24 +217,58 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
         }
         else
         {
-            // We want to change the reminder sent status for the appointment if the reminder has already been sent (or attempted to be sent), and if the new time of the appointment is after
-            // the end of day tomorrow. Any earlier, and we'll assume the client doesn't need another reminder.
-            long endOfDayTomorrow = TimeConstants.calcEndOfNextDay(Calendar.getInstance().getTimeInMillis());
-            if(!originalReminderStatus.equals(Appointment.ReminderStatus.NOT_SENT.toString()) && this.appointment.getStartTime() >= endOfDayTomorrow)
+            AppointmentDatabase.getInstance(this).beginTransaction();
+            // transaction block
             {
-                this.appointment.setReminderStatus(Appointment.ReminderStatus.NOT_SENT.toString());
-            }
-            AppointmentDatabase.getInstance(this).appointmentDAO().updateAppointment(this.appointment);
+                if(clientInfoFragment.isCreatingNewClient())
+                {
+                    String firstName = clientInfoFragment.getFirstName();
+                    String lastName = clientInfoFragment.getLastName();
+                    String phoneNumber = clientInfoFragment.getPhoneNumber();
 
-            Toast.makeText(getApplicationContext(), "Appointment rescheduled for " + this.appointment.getFullName(), Toast.LENGTH_LONG).show();
+                    Client clnt = new Client(firstName, lastName, phoneNumber);
+                    try
+                    {
+                        long newClientID = AppointmentDatabase.getInstance(this).clientDAO().addClient(clnt);
+                        this.appointment.setClientID(newClientID);
+                    }
+                    catch(SQLiteConstraintException ex) // will throw an error if a new client is attempted to be created with the same phone number as an existing client
+                    {
+                        AppointmentDatabase.getInstance(this).endTransaction();
+                        Toast.makeText(getApplicationContext(), "The phone number you've supplied for this appointment's new client is already in use by another client. Please check the phone number, or select the existing client from the list.", Toast.LENGTH_LONG).show();
+                        tabLayout.getTabAt(0).select();
 
-            finish();
+                        return;
+                    }
+                }
+                else
+                {
+                    this.appointment.setClientID(clientInfoFragment.getSelectedClientID());
+                }
+                AppointmentDatabase.getInstance(this).appointmentDAO().updateAppointment(this.appointment);
+
+                // We want to change the reminder sent status for the appointment if the reminder has already been sent (or attempted to be sent), and if the new time of the appointment is after
+                // the end of day tomorrow. Any earlier, and we'll assume the client doesn't need another reminder.
+                long endOfDayTomorrow = TimeConstants.calcEndOfNextDay(Calendar.getInstance().getTimeInMillis());
+                if(!originalReminderStatus.equals(Appointment.ReminderStatus.NOT_SENT.toString()) && this.appointment.getStartTime() >= endOfDayTomorrow)
+                {
+                    this.appointment.setReminderStatus(Appointment.ReminderStatus.NOT_SENT.toString());
+                }
+
+                AppointmentDatabase.getInstance(this).setTransactionSuccessful();
+                AppointmentDatabase.getInstance(this).endTransaction();
+
+                Toast.makeText(getApplicationContext(), "Appointment rescheduled for " + AppointmentDatabase.getInstance(this).clientDAO().getClientByID(this.appointment.getClientID()).getFullName(), Toast.LENGTH_LONG).show();
+
+                finish();
+            } // end transaction block
         }
     }
 
     private void popConflictingAppointmentToast(Appointment conflictingAppointment)
     {
-        String message = getResources().getString(R.string.conflicting_appointment_message) + "\n" + conflictingAppointment.getFullName() + ", " + conflictingAppointment.getTimeSpan();
+        Client conflictingClient  = AppointmentDatabase.getInstance(this).clientDAO().getClientByID(conflictingAppointment.getClientID());
+        String message = getResources().getString(R.string.conflicting_appointment_message) + "\n" + conflictingClient.getFullName() + ", " + conflictingAppointment.getTimeSpan();
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 

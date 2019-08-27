@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements AppointmentCancel
     RecyclerView appointmentsRecycler;
     TextView upcomingBox;
 
-    String TAG = "OKIE";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements AppointmentCancel
 
     public void viewAppointmentsClick(View view) {
         Intent intent = new Intent(this, ViewAppointmentsActivity.class);
+        startActivity(intent);
+    }
+
+    public void manageClientsClick(View view) {
+        Intent intent = new Intent(this, ViewClientsActivity.class);
         startActivity(intent);
     }
 

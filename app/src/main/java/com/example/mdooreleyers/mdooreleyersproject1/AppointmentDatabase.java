@@ -7,7 +7,7 @@ import android.content.Context;
 
 
 
-@Database(entities = {Appointment.class}, version = 1)
+@Database(entities = {Appointment.class, Client.class}, version = 1)
 public abstract class AppointmentDatabase extends RoomDatabase {
     private static final String DB_NAME = "appointments_DB";
     private static AppointmentDatabase instance;
@@ -23,4 +23,5 @@ public abstract class AppointmentDatabase extends RoomDatabase {
     }
 
     public abstract AppointmentDAO appointmentDAO();
+    public abstract ClientDAO clientDAO();
 }

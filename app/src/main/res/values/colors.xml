@@ -7,5 +7,6 @@
     <color name="highlight_colour">#FFB74D</color>
     <color name="action_button_colour">#FFF176</color>
     <color name="other_action_button_colour">#7aeaf4</color>
-    <color name="cancel_button_colour">#FFF06292</color>
+    <color name="cancel_button_colour">#F06292</color>
+    <color name="greyout_button_colour">#D8D8D8</color>
 </resources>

@@ -2,24 +2,32 @@ package com.example.mdooreleyers.mdooreleyersproject1;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-@Entity
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
+@Entity(foreignKeys = @ForeignKey(entity = Client.class,
+        parentColumns = "clientID",
+        childColumns = "clientID",
+        onDelete = CASCADE),
+        indices = {
+                @Index(name = "clientId_index", value = {"clientID"})
+        })
 public class Appointment {
     public enum ReminderStatus { NOT_SENT, SENT, FAILED};
 
     @PrimaryKey(autoGenerate = true)
     public int aptID;
-    @ColumnInfo(name = "firstName")
-    private String firstName;
-    @ColumnInfo(name = "lastName")
-    private String lastName;
-    @ColumnInfo(name = "phoneNumber")
-    private String phoneNumber;
+
+    //Client
+    private long clientID;
+
     @ColumnInfo(name = "startTime")
     private long startTime;
     @ColumnInfo(name = "duration")
@@ -28,48 +36,24 @@ public class Appointment {
     private String reminderStatus;
 
     // Used to set the reminder status to NOT SENT by default
-    public Appointment(String first, String last, String phone, long start, int duration)
+    public Appointment(long clientID, long start, int duration)
     {
-        setFirstName(first);
-        setLastName(last);
-        setPhoneNumber(phone);
+        this.clientID = clientID;
         setStartTime(start);
         setDuration(duration);
         setReminderStatus(ReminderStatus.NOT_SENT.toString());
     }
     // For database to work, the public contructor needs to have the same parameters as the fields
-    public Appointment(String firstName, String lastName, String phoneNumber, long startTime, int duration, String reminderStatus) {
-        setFirstName(firstName);
-        setLastName(lastName);
-        setPhoneNumber(phoneNumber);
+    public Appointment(long clientID, long startTime, int duration, String reminderStatus) {
+        this.clientID = clientID;
         setStartTime(startTime);
         setDuration(duration);
         setReminderStatus(reminderStatus);
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public long getClientID() { return clientID;  }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    public void setClientID(long clientID) {   this.clientID = clientID;   }
 
     public long getStartTime() {
         return startTime;
@@ -139,12 +123,4 @@ public class Appointment {
         SimpleDateFormat dateFormat = new SimpleDateFormat(TimeConstants.dateTimePattern);
         return dateFormat.format(new Date(startTime));
     }
-
-
-
-    public String getFullName() {
-        return firstName + " " + lastName;
-    }
-
-
 }

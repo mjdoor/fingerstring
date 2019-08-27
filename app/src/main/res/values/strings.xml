@@ -2,6 +2,8 @@
     <string name="app_name">FingerString</string>
     <string name="about_title">About</string>
     <string name="settings_title">Settings</string>
+    <string name="clients_title">Clients</string>
+    <string name="no_clients_message">You have not saved any clients yet</string>
     <string name="update_settings">Update Settings</string>
     <string name="update_settings_success">Settings successfully updated</string>
     <string name="update_settings_back">No settings changed</string>
@@ -18,6 +20,11 @@
     <string name="add_appointment">New Appointment</string>
     <string name="reschedule_appointment">Reschedule Appointment</string>
     <string name="manage_appointments">View Appointments</string>
+    <string name="manage_clients">Manage Clients</string>
+    <string name="update_client_title">Update Client</string>
+    <string name="confirm_client_delete">Deleting Client</string>
+    <string name="delete_client_btn">Delete Client</string>
+    <string name="update_client_btn">Save Changes</string>
     <string name="reschedule_button">Reschedule</string>
     <string name="cancel_button">Cancel</string>
     <string name="call_button">Call</string>
@@ -35,6 +42,10 @@
     <string name="start_time">Start Time</string>
     <string name="duration">Duration (mins)</string>
     <string name="date">Date</string>
+    <string name="create_client">Adding New Client</string>
+    <string name="choose_client">Choosing Existing Client</string>
+    <string name="create_client_btn">Tap Here to Book A New Client</string>
+    <string name="choose_client_btn">Tap Here to Choose An Existing Client</string>
     <string name="create_appointment">Book It!</string>
     <string name="conflicting_appointment_message">Unable to book because the date/time specified would conflict with another appointment:</string>
     <string name="title_activity_add_appointment">AddAppointmentActivity</string>
@@ -85,6 +96,7 @@
     <string name="confirm_cancel">Cancelling Appointment</string>
     <string name="cancelled_appointment">Appointment Cancelled</string>
     <string name="cancelling_error">An error occurred attempting to cancel that appointment</string>
+    <string name="deleting_client_error">An error occurred attempting to delete that client</string>
     <string name="updating_error">An error occurred attempting to update the appointment</string>
     <string name="confirm">Yes</string>
     <string name="deny">No</string>
