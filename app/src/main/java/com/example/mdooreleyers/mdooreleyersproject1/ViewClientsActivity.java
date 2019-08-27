@@ -1,5 +1,6 @@
 package com.example.mdooreleyers.mdooreleyersproject1;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,8 @@ public class ViewClientsActivity extends AppCompatActivity implements ClientAdap
     private RecyclerView clientRecycler;
     private TextView noClientMsgBox;
     private List<Client> clients;
+
+    private ClientAdapter clientAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class ViewClientsActivity extends AppCompatActivity implements ClientAdap
             noClientMsgBox.setVisibility(View.INVISIBLE);
 
             // Create the adapter with the client info
-            ClientAdapter clientAdapter = new ClientAdapter(clients, this);
+            clientAdapter = new ClientAdapter(clients, this);
             // Set the adapter for the recycler
             clientRecycler.setAdapter(clientAdapter);
             // Set layout manager
@@ -54,7 +57,13 @@ public class ViewClientsActivity extends AppCompatActivity implements ClientAdap
 
     @Override
     public void onClientClick(int position) {
+        clientAdapter.setSelectedColour(position);
+        Client selectedClient = clients.get(position);
 
+        Intent intent = new Intent(this, EditClientActivity.class);
+        intent.putExtra("client_id", selectedClient.getClientID());
+
+        startActivity(intent);
     }
 
     public void backClick(View view) {

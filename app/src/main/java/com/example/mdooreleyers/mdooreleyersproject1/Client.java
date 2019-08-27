@@ -2,9 +2,12 @@ package com.example.mdooreleyers.mdooreleyersproject1;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity
+@Entity(indices = {
+        @Index(name = "client_phoneNumber_index", value = {"phoneNumber"}, unique = true)
+})
 public class Client {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "clientID")

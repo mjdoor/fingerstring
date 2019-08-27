@@ -1,5 +1,6 @@
 package com.example.mdooreleyers.mdooreleyersproject1;
 
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -31,6 +32,8 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
 
     private Button scheduleBtn;
 
+    private TabLayout tabLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +54,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
         viewPager = (ViewPager)findViewById(R.id.newAppointmentViewPager);
         setupViewPager(viewPager, newAppointmentPageAdapter);
 
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.infoTabs);
+        tabLayout = (TabLayout)findViewById(R.id.infoTabs);
         tabLayout.setupWithViewPager(viewPager);
         // If we are rescheduling an appointment, have the opening tab be the Appointment Info tab, (index 1)
         if(getIntent().getExtras().getString("request_type").equals("update"))
@@ -149,7 +152,19 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                 String phoneNumber = clientInfoFragment.getPhoneNumber();
 
                 Client clnt = new Client(firstName, lastName, phoneNumber);
-                clientID = AppointmentDatabase.getInstance(this).clientDAO().addClient(clnt);
+
+                try
+                {
+                    clientID = AppointmentDatabase.getInstance(this).clientDAO().addClient(clnt);
+                }
+                catch(SQLiteConstraintException ex) // will throw an error if a new client is attempted to be created with the same phone number as an existing client
+                {
+                    AppointmentDatabase.getInstance(this).endTransaction();
+                    Toast.makeText(getApplicationContext(), "The phone number you've supplied for this appointment's new client is already in use by another client. Please check the phone number, or select the existing client from the list.", Toast.LENGTH_LONG).show();
+                    tabLayout.getTabAt(0).select();
+
+                    return;
+                }
             }
             else
             {
@@ -212,8 +227,19 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                     String phoneNumber = clientInfoFragment.getPhoneNumber();
 
                     Client clnt = new Client(firstName, lastName, phoneNumber);
-                    long newClientID = AppointmentDatabase.getInstance(this).clientDAO().addClient(clnt);
-                    this.appointment.setClientID(newClientID);
+                    try
+                    {
+                        long newClientID = AppointmentDatabase.getInstance(this).clientDAO().addClient(clnt);
+                        this.appointment.setClientID(newClientID);
+                    }
+                    catch(SQLiteConstraintException ex) // will throw an error if a new client is attempted to be created with the same phone number as an existing client
+                    {
+                        AppointmentDatabase.getInstance(this).endTransaction();
+                        Toast.makeText(getApplicationContext(), "The phone number you've supplied for this appointment's new client is already in use by another client. Please check the phone number, or select the existing client from the list.", Toast.LENGTH_LONG).show();
+                        tabLayout.getTabAt(0).select();
+
+                        return;
+                    }
                 }
                 else
                 {
