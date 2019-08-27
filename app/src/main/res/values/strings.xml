@@ -2,6 +2,8 @@
     <string name="app_name">MDooreleyersProject1</string>
     <string name="about_title">About</string>
     <string name="settings_title">Settings</string>
+    <string name="clients_title">Clients</string>
+    <string name="no_clients_message">You have not saved any clients yet</string>
     <string name="update_settings">Update Settings</string>
     <string name="update_settings_success">Settings successfully updated</string>
     <string name="update_settings_back">No settings changed</string>
@@ -18,6 +20,7 @@
     <string name="add_appointment">New Appointment</string>
     <string name="reschedule_appointment">Reschedule Appointment</string>
     <string name="manage_appointments">View Appointments</string>
+    <string name="manage_clients">Manage Clients</string>
     <string name="reschedule_button">Reschedule</string>
     <string name="cancel_button">Cancel</string>
     <string name="call_button">Call</string>
