@@ -6,32 +6,43 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Button
-        android:id="@+id/createGreyBtn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/greyout_button_colour"
-        android:text="@string/create_client_btn"
-        android:textColor="@color/card_background"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout4"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout4" />
+    <LinearLayout
+        android:id="@+id/chooseBtnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#EBEBEB"
+        android:elevation="1dp"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addNewLayout">
 
-    <Button
-        android:id="@+id/chooseGreyBtn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/greyout_button_colour"
-        android:text="@string/choose_client_btn"
-        android:textColor="@color/card_background"
-        app:layout_constraintBottom_toBottomOf="@+id/chooseExistingLayout"
-        app:layout_constraintEnd_toEndOf="@+id/chooseExistingLayout"
-        app:layout_constraintStart_toStartOf="@+id/chooseExistingLayout"
-        app:layout_constraintTop_toTopOf="@+id/chooseExistingLayout" />
+        <Button
+            android:id="@+id/createGreyBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.5"
+            android:background="#FFFFFF"
+            android:text="@string/create_client_btn"
+            android:textColor="@color/card_background" />
+
+        <Button
+            android:id="@+id/chooseGreyBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.5"
+            android:background="#FFFFFF"
+            android:text="@string/choose_client_btn"
+            android:textColor="@color/card_background" />
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
+        android:id="@+id/addNewLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -114,15 +125,16 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/chooseExistingLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/chooseBtnLayout">
 
         <TextView
             android:id="@+id/textView14"
@@ -137,9 +149,11 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/clientSelectionRecycler"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="0dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:background="#59EFF2FF"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
     </android.support.constraint.ConstraintLayout>
 

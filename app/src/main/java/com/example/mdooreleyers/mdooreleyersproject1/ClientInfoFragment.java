@@ -5,12 +5,19 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.TransitionManager;
+import android.transition.TransitionSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -30,6 +37,7 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     private Button createBtn;
     private Button chooseBtn;
     private ConstraintLayout chooseExistingLayout;
+    private LinearLayout addNewLayout;
 
     private InflaterListener listener;
 
@@ -47,6 +55,7 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
         createBtn = (Button)view.findViewById(R.id.createGreyBtn);
         chooseBtn = (Button)view.findViewById(R.id.chooseGreyBtn);
         chooseExistingLayout = (ConstraintLayout)view.findViewById(R.id.chooseExistingLayout);
+        addNewLayout = (LinearLayout)view.findViewById(R.id.addNewLayout);
 
         // to start, assume we're creating a new client, so the grey button over create new client will be invisible
         displayForCreatingClient();
@@ -142,20 +151,54 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     {
         creatingNewClient = true;
         createBtn.setClickable(false);
-        createBtn.setVisibility(View.INVISIBLE);
 
         chooseBtn.setClickable(true);
-        chooseBtn.setVisibility(View.VISIBLE);
+
+        TransitionSet set2 = new TransitionSet()
+            .addTransition(new Slide(Gravity.TOP))
+            .addTransition(new Fade())
+            .setInterpolator(new LinearOutSlowInInterpolator())
+            .setDuration(500);
+
+        TransitionManager.beginDelayedTransition(chooseExistingLayout, set2);
+        chooseExistingLayout.setVisibility(View.INVISIBLE);
+
+        TransitionSet set1 = new TransitionSet()
+                .addTransition(new Slide(Gravity.BOTTOM))
+                .addTransition(new Fade())
+                .setInterpolator(new LinearOutSlowInInterpolator())
+                .setStartDelay(400)
+                .setDuration(500);
+
+        TransitionManager.beginDelayedTransition(addNewLayout, set1);
+        addNewLayout.setVisibility(View.VISIBLE);
     }
 
     private void displayForChoosingClient()
     {
         creatingNewClient = false;
         chooseBtn.setClickable(false);
-        chooseBtn.setVisibility(View.INVISIBLE);
 
         createBtn.setClickable(true);
-        createBtn.setVisibility(View.VISIBLE);
+
+        TransitionSet set1 = new TransitionSet()
+                .addTransition(new Slide(Gravity.BOTTOM))
+                .addTransition(new Fade())
+                .setInterpolator(new LinearOutSlowInInterpolator())
+                .setDuration(500);
+
+        TransitionManager.beginDelayedTransition(addNewLayout, set1);
+        addNewLayout.setVisibility(View.INVISIBLE);
+
+        TransitionSet set2 = new TransitionSet()
+                .addTransition(new Slide(Gravity.TOP))
+                .addTransition(new Fade())
+                .setInterpolator(new LinearOutSlowInInterpolator())
+                .setStartDelay(400)
+                .setDuration(500);
+
+        TransitionManager.beginDelayedTransition(chooseExistingLayout, set2);
+        chooseExistingLayout.setVisibility(View.VISIBLE);
     }
 
     private void displayNoClients()
