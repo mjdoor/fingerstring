@@ -7,41 +7,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:id="@+id/chooseBtnLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="#EBEBEB"
-        android:elevation="1dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addNewLayout">
-
-        <Button
-            android:id="@+id/createGreyBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="0.5"
-            android:background="#FFFFFF"
-            android:text="@string/create_client_btn"
-            android:textColor="@color/card_background" />
-
-        <Button
-            android:id="@+id/chooseGreyBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="0.5"
-            android:background="#FFFFFF"
-            android:text="@string/choose_client_btn"
-            android:textColor="@color/card_background" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/addNewLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -127,14 +92,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/chooseBtnLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseBtnLayout">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView14"
@@ -152,9 +115,40 @@
             android:layout_height="0dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
-            android:background="#59EFF2FF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
     </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/chooseBtnLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="60dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/clientPageMessageTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingLeft="8dp" />
+
+        <Button
+            android:id="@+id/clientPageBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            android:shadowColor="#000000"
+            android:shadowDx="10"
+            android:shadowDy="10"
+            android:textColor="@color/colorAccent" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

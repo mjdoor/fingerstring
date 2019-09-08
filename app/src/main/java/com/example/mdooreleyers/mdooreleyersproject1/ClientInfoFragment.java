@@ -34,10 +34,12 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     private TextView phoneNumberTxt;
 
     // buttons to grey out either option (add new or choose client)
-    private Button createBtn;
-    private Button chooseBtn;
+    private Button clientSelectionBtn;
     private ConstraintLayout chooseExistingLayout;
     private LinearLayout addNewLayout;
+
+    private TextView chooseClientMessage;
+    private LinearLayout buttonLayout;
 
     private InflaterListener listener;
 
@@ -52,21 +54,19 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
         lastNameTxt = (TextView)view.findViewById(R.id.newLastNameTxt);
         phoneNumberTxt = (TextView)view.findViewById(R.id.newPhoneTxt);
 
-        createBtn = (Button)view.findViewById(R.id.createGreyBtn);
-        chooseBtn = (Button)view.findViewById(R.id.chooseGreyBtn);
+        clientSelectionBtn = (Button)view.findViewById(R.id.clientPageBtn);
         chooseExistingLayout = (ConstraintLayout)view.findViewById(R.id.chooseExistingLayout);
         addNewLayout = (LinearLayout)view.findViewById(R.id.addNewLayout);
+
+        chooseClientMessage = (TextView)view.findViewById(R.id.clientPageMessageTxt);
+        buttonLayout = (LinearLayout)view.findViewById(R.id.chooseBtnLayout);
 
         // to start, assume we're creating a new client, so the grey button over create new client will be invisible
         displayForCreatingClient();
 
-        createBtn.setOnClickListener((ev)->
+        clientSelectionBtn.setOnClickListener((ev)->
         {
-            displayForCreatingClient();
-        });
-        chooseBtn.setOnClickListener((ev)->
-        {
-            displayForChoosingClient();
+            displayForClientSelectionChoice();
         });
 
         this.listener.onClientInfoFragCreated();
@@ -147,15 +147,28 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
         return this.selectedClientID;
     }
 
+    private void displayForClientSelectionChoice()
+    {
+        if(this.creatingNewClient)
+        {
+            displayForChoosingClient();
+        }
+        else
+        {
+            displayForCreatingClient();
+        }
+    }
+
+
     private void displayForCreatingClient()
     {
         creatingNewClient = true;
-        createBtn.setClickable(false);
 
-        chooseBtn.setClickable(true);
+        chooseClientMessage.setText(R.string.choose_client_instead);
+        clientSelectionBtn.setText(R.string.choose_client_instead_btn);
 
         TransitionSet set2 = new TransitionSet()
-            .addTransition(new Slide(Gravity.TOP))
+            .addTransition(new Slide(Gravity.BOTTOM))
             .addTransition(new Fade())
             .setInterpolator(new LinearOutSlowInInterpolator())
             .setDuration(500);
@@ -164,7 +177,7 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
         chooseExistingLayout.setVisibility(View.INVISIBLE);
 
         TransitionSet set1 = new TransitionSet()
-                .addTransition(new Slide(Gravity.BOTTOM))
+                .addTransition(new Slide(Gravity.TOP))
                 .addTransition(new Fade())
                 .setInterpolator(new LinearOutSlowInInterpolator())
                 .setStartDelay(400)
@@ -177,9 +190,9 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     private void displayForChoosingClient()
     {
         creatingNewClient = false;
-        chooseBtn.setClickable(false);
 
-        createBtn.setClickable(true);
+        chooseClientMessage.setText(R.string.add_client_instead);
+        clientSelectionBtn.setText(R.string.add_client_instead_btn);
 
         TransitionSet set1 = new TransitionSet()
                 .addTransition(new Slide(Gravity.BOTTOM))
@@ -204,11 +217,7 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     private void displayNoClients()
     {
         creatingNewClient = true;
-        createBtn.setClickable(false);
-        createBtn.setVisibility(View.INVISIBLE);
-
-        chooseBtn.setClickable(false);
-        chooseBtn.setVisibility(View.INVISIBLE);
+        buttonLayout.setVisibility(View.INVISIBLE);
         chooseExistingLayout.setVisibility(View.INVISIBLE);
     }
 }
