@@ -47,7 +47,7 @@
     <string name="choose_client">Choosing Existing Client</string>
     <string name="create_client_btn">Add New Client</string>
     <string name="choose_client_btn">Choose Existing Client</string>
-    <string name="choose_client_instead">Booking a client you have seen before?</string>
+    <string name="choose_client_instead">Booking a client you\'ve seen before?</string>
     <string name="choose_client_instead_btn">Tap here!</string>
     <string name="add_client_instead">Booking an appointment for a new client?</string>
     <string name="add_client_instead_btn">Tap here!</string>
