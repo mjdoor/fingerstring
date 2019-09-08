@@ -88,8 +88,8 @@ public class AutomatedTexter extends BroadcastReceiver {
                 {
                     String appointmentType = SharedPreferenceUtility.getStringPreference(context, "settingAppointmentType", context.getResources().getString(R.string.setting_appointment_type_default)).toLowerCase();
                     String message = "Hi " + clnt.getFirstName() +
-                            "! This text is just reminding you of your upcoming " + appointmentType + " appointment, booked for " + apt.getDateTimeString() +
-                            " See you then :)";
+                            ". This text is just reminding you of your upcoming " + appointmentType + " appointment, booked for " + apt.getDateTimeString() +
+                            " See you then!";
                     manager.sendTextMessage(clnt.getPhoneNumber(),null,message,null,null);
                     apt.setReminderStatus(Appointment.ReminderStatus.SENT.toString());
                     sendCount++;

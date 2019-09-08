@@ -56,6 +56,14 @@
                 android:inputType="textPersonName" />
 
             <TextView
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_message_example"
+                android:textSize="10sp"
+                android:textStyle="italic" />
+
+            <TextView
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
