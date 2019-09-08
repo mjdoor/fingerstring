@@ -120,6 +120,11 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
             clientRecycler.setAdapter(clientAdapter);
             // Set layout manager
             clientRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            if(clients.size() >= 10) // if the user has more than 10 saved clients, by default show the "Choose Existing" screen
+            {
+                displayForChoosingClient();
+            }
         }
     }
 

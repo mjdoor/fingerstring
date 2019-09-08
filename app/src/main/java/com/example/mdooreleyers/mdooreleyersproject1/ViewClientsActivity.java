@@ -36,10 +36,12 @@ public class ViewClientsActivity extends AppCompatActivity implements ClientAdap
         if(clients.size() == 0)
         {
             noClientMsgBox.setVisibility(View.VISIBLE);
+            clientRecycler.setVisibility(View.INVISIBLE);
         }
         else
         {
             noClientMsgBox.setVisibility(View.INVISIBLE);
+            clientRecycler.setVisibility(View.VISIBLE);
 
             // Create the adapter with the client info
             clientAdapter = new ClientAdapter(clients, this);
