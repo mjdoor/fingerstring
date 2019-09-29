@@ -1,5 +1,6 @@
 package com.example.mdooreleyers.mdooreleyersproject1;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,8 +18,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -33,12 +38,13 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     private TextView lastNameTxt;
     private TextView phoneNumberTxt;
 
-    // buttons to grey out either option (add new or choose client)
-    private Button clientSelectionBtn;
+    // switch to select out either option (add new or choose client)
     private ConstraintLayout chooseExistingLayout;
     private LinearLayout addNewLayout;
+    private Switch addOrChooseSwitch;
+    private TextView addText;
+    private TextView chooseText;
 
-    private TextView chooseClientMessage;
     private LinearLayout buttonLayout;
 
     private InflaterListener listener;
@@ -54,19 +60,26 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
         lastNameTxt = (TextView)view.findViewById(R.id.newLastNameTxt);
         phoneNumberTxt = (TextView)view.findViewById(R.id.newPhoneTxt);
 
-        clientSelectionBtn = (Button)view.findViewById(R.id.clientPageBtn);
+        addOrChooseSwitch = (Switch)view.findViewById(R.id.clientTypeSwitch);
+        addText = (TextView)view.findViewById(R.id.addOption);
+        chooseText = (TextView)view.findViewById(R.id.chooseOption);
         chooseExistingLayout = (ConstraintLayout)view.findViewById(R.id.chooseExistingLayout);
         addNewLayout = (LinearLayout)view.findViewById(R.id.addNewLayout);
 
-        chooseClientMessage = (TextView)view.findViewById(R.id.clientPageMessageTxt);
         buttonLayout = (LinearLayout)view.findViewById(R.id.chooseBtnLayout);
 
         // to start, assume we're creating a new client, so the grey button over create new client will be invisible
         displayForCreatingClient();
 
-        clientSelectionBtn.setOnClickListener((ev)->
-        {
-            displayForClientSelectionChoice();
+        addOrChooseSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+           if(isChecked)
+           {
+               displayForChoosingClient();
+           }
+           else
+           {
+               displayForCreatingClient();
+           }
         });
 
         this.listener.onClientInfoFragCreated();
@@ -121,8 +134,9 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
             // Set layout manager
             clientRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-            if(clients.size() >= 10) // if the user has more than 10 saved clients, by default show the "Choose Existing" screen
+            if(clients.size() >= 5) // if the user has more than 5 saved clients, by default show the "Choose Existing" screen
             {
+                addOrChooseSwitch.setChecked(true);
                 displayForChoosingClient();
             }
         }
@@ -152,25 +166,12 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
         return this.selectedClientID;
     }
 
-    private void displayForClientSelectionChoice()
-    {
-        if(this.creatingNewClient)
-        {
-            displayForChoosingClient();
-        }
-        else
-        {
-            displayForCreatingClient();
-        }
-    }
-
-
     private void displayForCreatingClient()
     {
         creatingNewClient = true;
 
-        chooseClientMessage.setText(R.string.choose_client_instead);
-        clientSelectionBtn.setText(R.string.choose_client_instead_btn);
+        addText.setTextColor(Color.BLACK);
+        chooseText.setTextColor(Color.LTGRAY);
 
         TransitionSet set2 = new TransitionSet()
             .addTransition(new Slide(Gravity.BOTTOM))
@@ -196,8 +197,8 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     {
         creatingNewClient = false;
 
-        chooseClientMessage.setText(R.string.add_client_instead);
-        clientSelectionBtn.setText(R.string.add_client_instead_btn);
+        chooseText.setTextColor(Color.BLACK);
+        addText.setTextColor(Color.LTGRAY);
 
         TransitionSet set1 = new TransitionSet()
                 .addTransition(new Slide(Gravity.BOTTOM))

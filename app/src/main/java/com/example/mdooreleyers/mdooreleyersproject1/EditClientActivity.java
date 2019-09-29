@@ -107,6 +107,7 @@ public class EditClientActivity extends AppCompatActivity {
 
 
     public void backClick(View view) {
+        Toast.makeText(getApplicationContext(), R.string.back_toast_message_client, Toast.LENGTH_SHORT).show();
         finish();
     }
 }

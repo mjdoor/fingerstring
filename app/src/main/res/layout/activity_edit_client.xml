@@ -56,7 +56,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName|textCapSentences"
+                    android:textAllCaps="true" />
 
             </LinearLayout>
 
@@ -76,8 +77,9 @@
                     android:id="@+id/lastNameTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:capitalize="words"
                     android:ems="10"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName|textCapSentences" />
             </LinearLayout>
         </LinearLayout>
 

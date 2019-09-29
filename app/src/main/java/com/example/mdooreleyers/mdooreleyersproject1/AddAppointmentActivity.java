@@ -4,10 +4,18 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.CalendarView;
@@ -34,6 +42,8 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
 
     private TabLayout tabLayout;
 
+    private LinearLayout btnLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +59,8 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
             headingBox.setText(R.string.add_appointment);
         }
 
+        btnLayout = (LinearLayout)findViewById(R.id.addAppointmentBtnLayout);
+
         // Set up tab layout, for client info and appointment time info
         newAppointmentPageAdapter = new NewAppointmentPageAdapter(getSupportFragmentManager());
         viewPager = (ViewPager)findViewById(R.id.newAppointmentViewPager);
@@ -60,7 +72,37 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
         if(getIntent().getExtras().getString("request_type").equals("update"))
         {
             tabLayout.getTabAt(1).select();
+            setBtnLayoutVisibility(View.VISIBLE);
         }
+        else
+        {
+            setBtnLayoutVisibility(View.INVISIBLE);
+        }
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                //viewPager.setCurrentItem(tab.getPosition());
+                if (tab.getPosition() == 0)// Client info - don't show Booking buttons
+                {
+                    setBtnLayoutVisibility(View.INVISIBLE);
+                }
+                else // Appointment info - show Booking buttons
+                {
+                    setBtnLayoutVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         // Set up fragments, for access to input field views
         clientInfoFragment = (ClientInfoFragment)newAppointmentPageAdapter.getItem(0);
@@ -69,10 +111,9 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
         scheduleBtn = (Button)findViewById(R.id.createAppointmentBtn);
 
         // Check intent to see if we are creating or updating an appointment
-        switch(getIntent().getExtras().getString("request_type"))
-        {
+        switch(getIntent().getExtras().getString("request_type")) {
             case "new": // adding a new appointment
-                scheduleBtn.setOnClickListener(new Button.OnClickListener(){
+                scheduleBtn.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         createAppointment();
@@ -83,7 +124,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                 int aptID = getIntent().getExtras().getInt("aptID");
                 this.appointment = AppointmentDatabase.getInstance(this).appointmentDAO().getAppointmentById(aptID);
                 this.client = AppointmentDatabase.getInstance(this).clientDAO().getClientByID(this.appointment.getClientID());
-                scheduleBtn.setOnClickListener(new Button.OnClickListener(){
+                scheduleBtn.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         updateAppointment();
@@ -270,6 +311,18 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
         Client conflictingClient  = AppointmentDatabase.getInstance(this).clientDAO().getClientByID(conflictingAppointment.getClientID());
         String message = getResources().getString(R.string.conflicting_appointment_message) + "\n" + conflictingClient.getFullName() + ", " + conflictingAppointment.getTimeSpan();
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    private void setBtnLayoutVisibility(int vis)
+    {
+        TransitionSet set = new TransitionSet()
+                .addTransition(new Slide(Gravity.RIGHT))
+                .addTransition(new Fade())
+                .setInterpolator(new FastOutLinearInInterpolator())
+                .setDuration(50);
+
+        TransitionManager.beginDelayedTransition(btnLayout, set);
+        btnLayout.setVisibility(vis);
     }
 
     public void backClick(View view) {

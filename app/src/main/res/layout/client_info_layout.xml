@@ -47,8 +47,9 @@
                     android:id="@+id/newFirstNameTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:capitalize="words"
                     android:ems="10"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName|textCapSentences" />
 
             </LinearLayout>
 
@@ -68,8 +69,9 @@
                     android:id="@+id/newLastNameTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:capitalize="words"
                     android:ems="10"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName|textCapSentences" />
             </LinearLayout>
         </LinearLayout>
 
@@ -127,29 +129,48 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="60dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/clientPageMessageTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:paddingLeft="8dp"
-            android:textStyle="italic" />
-
-        <Button
-            android:id="@+id/clientPageBtn"
+            android:id="@+id/addOption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#FFFFFF"
-            android:shadowColor="#000000"
-            android:shadowDx="10"
-            android:shadowDy="10"
-            android:textColor="@color/colorAccent" />
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/create_client_switch" />
 
+        <Switch
+            android:id="@+id/clientTypeSwitch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.6"
+            android:thumbTint="@color/colorPrimary"
+            android:trackTint="@color/card_background" />
+
+        <TextView
+            android:id="@+id/chooseOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/choose_client_switch" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/swipe_instruction"
+        android:textColor="#AFAFAF"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
