@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class AddAppointmentActivity extends AppCompatActivity implements InflaterListener {
+public class AddAppointmentActivity extends AppCompatActivity implements InflaterListener, TabChangeListener {
 
     TextView headingBox;
 
@@ -168,6 +168,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
     {
         ClientInfoFragment cIF = new ClientInfoFragment();
         cIF.setListener(this);
+        cIF.setTabChangeListener(this);
         NewAppointmentFragment nAF = new NewAppointmentFragment();
         nAF.setListener(this);
         adapter.addFragment(cIF, getString(R.string.client_info));
@@ -193,7 +194,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
 
                 if(firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty())
                 {
-                    Toast.makeText(getApplicationContext(), "Please enter your client's first and last names, and phone number.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enter your client's first and last name, and phone number.", Toast.LENGTH_SHORT).show();
                     tabLayout.getTabAt(0).select();
 
                     return;
@@ -358,9 +359,8 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
         btnLayout.setVisibility(vis);
     }
 
-    public void backClick(View view) {
-        Toast.makeText(getApplicationContext(), R.string.back_toast_message, Toast.LENGTH_SHORT).show();
-        finish();
+    @Override
+    public void changeTabTo(int tabNum) {
+        tabLayout.getTabAt(tabNum).select();
     }
-
 }

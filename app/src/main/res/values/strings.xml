@@ -47,7 +47,7 @@
     <string name="choose_client">Choosing Existing Client</string>
     <string name="create_client_switch">Add New</string>
     <string name="choose_client_switch">Choose Existing</string>
-    <string name="swipe_instruction">Swipe left to enter appointment information.</string>
+    <string name="swipe_instruction">Swipe screen left to select appointment date and time.</string>
     <string name="create_appointment">Book It!</string>
     <string name="conflicting_appointment_message">Unable to book because the date/time specified would conflict with another appointment:</string>
     <string name="title_activity_add_appointment">AddAppointmentActivity</string>

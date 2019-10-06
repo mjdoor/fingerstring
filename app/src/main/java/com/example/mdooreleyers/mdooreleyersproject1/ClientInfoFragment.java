@@ -48,6 +48,7 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     private LinearLayout buttonLayout;
 
     private InflaterListener listener;
+    private TabChangeListener tabChangeListener;
 
     @Nullable
     @Override
@@ -122,6 +123,8 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
         this.listener = listener;
     }
 
+    public void setTabChangeListener(TabChangeListener listener) {this.tabChangeListener = listener;}
+
     public void setupClientRecycler(List<Client> clients)
     {
         if(clients.size() == 0)
@@ -149,6 +152,8 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     public void onClientClick(int position) {
         this.selectedClientID = clientAdapter.getClientID(position);
         clientAdapter.setSelectedColour(position);
+
+        this.tabChangeListener.changeTabTo(1);
     }
 
     public boolean isCreatingNewClient()
