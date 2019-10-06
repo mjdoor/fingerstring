@@ -112,6 +112,18 @@ public class Appointment {
         return relDay + " @ " + start + " - " + end;
     }
 
+    public String getPlainTimeSpan()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(TimeConstants.timePattern);
+
+        String start = dateFormat.format(new Date(startTime));
+        long endTime = getEndTime();
+        String end = dateFormat.format(new Date(endTime));
+
+        return start + " - " + end;
+    }
+
+
     public String getDateString()
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat(TimeConstants.datePattern);

@@ -54,6 +54,9 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.client_info_layout, container, false);
 
+        // default id, means nothing selected
+        this.selectedClientID = -1;
+
         clientRecycler = (RecyclerView)view.findViewById(R.id.clientSelectionRecycler);
         clientRecycler.setHasFixedSize(true);
         firstNameTxt = (TextView)view.findViewById(R.id.newFirstNameTxt);

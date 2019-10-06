@@ -153,8 +153,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
         {
             appointmentInfoFragment.setViewsWithDate(this.appointment.getStartTime(), this.appointment.getDuration());
         }
-        else
-        {
+        else {
             // set default ampm to PM
             int defaultAmPmPosition = 1; // AmPm: [ AM, PM ]
             appointmentInfoFragment.setAmPm(defaultAmPmPosition);
@@ -192,6 +191,14 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                 String lastName = clientInfoFragment.getLastName();
                 String phoneNumber = clientInfoFragment.getPhoneNumber();
 
+                if(firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter your client's first and last names, and phone number.", Toast.LENGTH_SHORT).show();
+                    tabLayout.getTabAt(0).select();
+
+                    return;
+                }
+
                 Client clnt = new Client(firstName, lastName, phoneNumber);
 
                 try
@@ -210,6 +217,14 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
             else
             {
                 clientID = clientInfoFragment.getSelectedClientID();
+
+                if(clientID == -1)
+                {
+                    Toast.makeText(getApplicationContext(), "Please select a client from the list, or enter information for a new client.", Toast.LENGTH_LONG).show();
+                    tabLayout.getTabAt(0).select();
+
+                    return;
+                }
             }
 
             Appointment apt = new Appointment(clientID, dateTime, duration);
@@ -267,6 +282,14 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                     String lastName = clientInfoFragment.getLastName();
                     String phoneNumber = clientInfoFragment.getPhoneNumber();
 
+                    if(firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty())
+                    {
+                        Toast.makeText(getApplicationContext(), "Please enter your client's first and last names, and phone number.", Toast.LENGTH_SHORT).show();
+                        tabLayout.getTabAt(0).select();
+
+                        return;
+                    }
+
                     Client clnt = new Client(firstName, lastName, phoneNumber);
                     try
                     {
@@ -284,7 +307,17 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                 }
                 else
                 {
-                    this.appointment.setClientID(clientInfoFragment.getSelectedClientID());
+                    long clientID = clientInfoFragment.getSelectedClientID();
+
+                    if(clientID == -1)
+                    {
+                        Toast.makeText(getApplicationContext(), "Please select a client from the list, or enter information for a new client.", Toast.LENGTH_LONG).show();
+                        tabLayout.getTabAt(0).select();
+
+                        return;
+                    }
+
+                    this.appointment.setClientID(clientID);
                 }
                 AppointmentDatabase.getInstance(this).appointmentDAO().updateAppointment(this.appointment);
 

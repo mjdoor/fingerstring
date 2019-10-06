@@ -1,14 +1,21 @@
 package com.example.mdooreleyers.mdooreleyersproject1;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -17,6 +24,10 @@ import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class NewAppointmentFragment extends Fragment {
     private Spinner durationSpinner;
@@ -25,12 +36,18 @@ public class NewAppointmentFragment extends Fragment {
     private Spinner ampmSpinner;
     private CalendarView calendar;
 
+    private CoordinatorLayout snackbarHolder;
+    private Snackbar snackbar;
+
     private InflaterListener listener;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.new_appointment_layout, container, false);
+
+        snackbarHolder = (CoordinatorLayout)view.findViewById(R.id.snackbarHolder);
+        snackbar = Snackbar.make(snackbarHolder, "", 5000);
 
         durationSpinner = (Spinner) view.findViewById(R.id.durationSpinner);
         calendar = (CalendarView) view.findViewById(R.id.newAppointmentCal);
@@ -44,6 +61,7 @@ public class NewAppointmentFragment extends Fragment {
                 try
                 {
                     calendar.setDate(selDay.getCalendar());
+                    setSelectedDayAppointments(selDay.getCalendar());
                 }
                 catch (com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException ex)
                 {
@@ -51,6 +69,8 @@ public class NewAppointmentFragment extends Fragment {
                 }
             }
         });
+
+        setupCalendarIcons();
 
         this.listener.onAppointmentInfoFragCreated();
 
@@ -135,10 +155,81 @@ public class NewAppointmentFragment extends Fragment {
         durationSpinner.setSelection(position);
     }
 
-
     public void setListener(InflaterListener listener)
     {
         this.listener = listener;
+    }
+
+    private void setSelectedDayAppointments(Calendar selectedDay)
+    {
+        Calendar cal = (Calendar)selectedDay.clone();//calendar.getSelectedDate();
+        // Get time for start of selected day
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        long startOfDay = cal.getTimeInMillis();
+        // Move forward 24 hours for end of day
+        cal.setTimeInMillis(startOfDay + TimeConstants.MILLISECONDS_PER_DAY);
+        long endOfDay = cal.getTimeInMillis();
+
+        List<Appointment> selectedAppointments = AppointmentDatabase.getInstance(getActivity()).appointmentDAO().getUpcoming(startOfDay, endOfDay);
+        String existingAppInfo = "Existing Appointments:\n";
+        for(int i = 0; i < selectedAppointments.size(); i++)
+        {
+            Client client = AppointmentDatabase.getInstance(getActivity()).clientDAO().getClientByID(selectedAppointments.get(i).getClientID());
+            String info = client.getFullName() + ": " + selectedAppointments.get(i).getPlainTimeSpan();
+            existingAppInfo += info;
+            if(i < selectedAppointments.size() - 1)
+            {
+                existingAppInfo += "\n";
+            }
+        }
+
+        if(snackbar.isShown())
+        {
+            snackbar.dismiss(); //dismiss snackbar if it happens to still be showing from another calendar selection
+        }
+        if(selectedAppointments.size() > 0)
+        {
+            snackbar = Snackbar.make(snackbarHolder, existingAppInfo, 5000); // need to reset with new instance, or else snackbar would glitch and not show if you selected a day with appointments if the snackbar was already showing.
+            ((TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text)).setMaxLines(selectedAppointments.size() + 1);
+            snackbar.show();
+        }
+    }
+
+    // Sets icons on calendar for days with appointments
+    private void setupCalendarIcons()
+    {
+        List<Appointment> allAppointments = AppointmentDatabase.getInstance(getActivity()).appointmentDAO().getAll();
+
+        // Need to generate a list of Calendar objects to set selected dates on calendarView
+        Set<Calendar> uniqDays = new HashSet<Calendar>();
+        for(int i = 0; i < allAppointments.size(); i++)
+        {
+            // get the date of the appointment
+            long aptDate = allAppointments.get(i).getStartTime();
+            Calendar dayCal = Calendar.getInstance();
+            dayCal.setTimeInMillis(aptDate);
+            // set time to midnight, for consistency between all appointment days
+            dayCal.set(Calendar.HOUR_OF_DAY, 0);
+            dayCal.set(Calendar.MINUTE, 0);
+            uniqDays.add(dayCal);
+        }
+
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        long todayTime = today.getTimeInMillis();
+
+        List<EventDay> appointmentDays = new ArrayList<EventDay>();
+        for(Iterator<Calendar> it = uniqDays.iterator(); it.hasNext(); /*nothing*/)
+        {
+            Calendar cal = it.next(); //advances the loop
+            appointmentDays.add(new EventDay(cal, (cal.getTimeInMillis() < todayTime ? R.drawable.appointment_icon_past : R.drawable.appointment_icon))); //sets different icon for old appointments vs present/future appointments
+        };
+        calendar.setEvents(appointmentDays);
     }
 
 }
