@@ -6,7 +6,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity(indices = {
-        @Index(name = "client_phoneNumber_index", value = {"phoneNumber"}, unique = true)
+        @Index(name = "client_unique_index", value = {"firstName", "lastName", "phoneNumber"}, unique = true)
 })
 public class Client {
     @PrimaryKey(autoGenerate = true)
@@ -18,12 +18,15 @@ public class Client {
     private String lastName;
     @ColumnInfo(name = "phoneNumber")
     private String phoneNumber;
+    @ColumnInfo(name="disableReminders")
+    private boolean disableReminders;
 
-    public Client(String firstName, String lastName, String phoneNumber)
+    public Client(String firstName, String lastName, String phoneNumber, boolean disableReminders)
     {
         setFirstName(firstName);
         setLastName(lastName);
         setPhoneNumber(phoneNumber);
+        setDisableReminders(disableReminders);
     }
 
     public long getClientID() { return clientID; }
@@ -58,4 +61,8 @@ public class Client {
     {
         return firstName + " " + lastName;
     }
+
+    public void setDisableReminders (boolean d) { this.disableReminders = d;}
+
+    public boolean getDisableReminders() { return this.disableReminders; }
 }

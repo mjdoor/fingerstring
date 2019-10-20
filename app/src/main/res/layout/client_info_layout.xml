@@ -85,6 +85,15 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="phone" />
+
+        <CheckBox
+            android:id="@+id/disableRemindersBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/card_background"
+            android:text="@string/disable_reminders"
+            android:textColor="#929292"
+            android:textColorHighlight="@color/highlight_colour" />
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout

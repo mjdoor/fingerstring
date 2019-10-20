@@ -191,6 +191,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                 String firstName = clientInfoFragment.getFirstName();
                 String lastName = clientInfoFragment.getLastName();
                 String phoneNumber = clientInfoFragment.getPhoneNumber();
+                boolean disableReminders = clientInfoFragment.getDisableReminders();
 
                 if(firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty())
                 {
@@ -200,16 +201,16 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                     return;
                 }
 
-                Client clnt = new Client(firstName, lastName, phoneNumber);
+                Client clnt = new Client(firstName, lastName, phoneNumber, disableReminders);
 
                 try
                 {
                     clientID = AppointmentDatabase.getInstance(this).clientDAO().addClient(clnt);
                 }
-                catch(SQLiteConstraintException ex) // will throw an error if a new client is attempted to be created with the same phone number as an existing client
+                catch(SQLiteConstraintException ex) // will throw an error if a new client is attempted to be created with the info as an existing client
                 {
                     AppointmentDatabase.getInstance(this).endTransaction();
-                    Toast.makeText(getApplicationContext(), "The phone number you've supplied for this appointment's new client is already in use by another client. Please check the phone number, or select the existing client from the list.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.unique_constraint_violation, Toast.LENGTH_LONG).show();
                     tabLayout.getTabAt(0).select();
 
                     return;
@@ -282,6 +283,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                     String firstName = clientInfoFragment.getFirstName();
                     String lastName = clientInfoFragment.getLastName();
                     String phoneNumber = clientInfoFragment.getPhoneNumber();
+                    boolean disableReminders = clientInfoFragment.getDisableReminders();
 
                     if(firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty())
                     {
@@ -291,7 +293,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                         return;
                     }
 
-                    Client clnt = new Client(firstName, lastName, phoneNumber);
+                    Client clnt = new Client(firstName, lastName, phoneNumber, disableReminders);
                     try
                     {
                         long newClientID = AppointmentDatabase.getInstance(this).clientDAO().addClient(clnt);
@@ -300,7 +302,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                     catch(SQLiteConstraintException ex) // will throw an error if a new client is attempted to be created with the same phone number as an existing client
                     {
                         AppointmentDatabase.getInstance(this).endTransaction();
-                        Toast.makeText(getApplicationContext(), "The phone number you've supplied for this appointment's new client is already in use by another client. Please check the phone number, or select the existing client from the list.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.unique_constraint_violation, Toast.LENGTH_LONG).show();
                         tabLayout.getTabAt(0).select();
 
                         return;

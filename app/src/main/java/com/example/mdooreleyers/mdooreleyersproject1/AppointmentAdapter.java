@@ -74,7 +74,12 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         viewHolder.appointmentTimeBox.setText(app.getTimeSpan());
         viewHolder.clientNameBox.setText(clnt.getFullName());
 
-        if(app.getReminderStatus().equals(Appointment.ReminderStatus.NOT_SENT.toString()))
+        if(clnt.getDisableReminders())
+        {
+            viewHolder.reminderStatusBox.setText(R.string.reminders_disabled);
+            viewHolder.reminderStatusBox.setTextColor(Color.DKGRAY);
+        }
+        else if(app.getReminderStatus().equals(Appointment.ReminderStatus.NOT_SENT.toString()))
         {
             viewHolder.reminderStatusBox.setText(R.string.reminder_not_sent);
             viewHolder.reminderStatusBox.setTextColor(Color.DKGRAY);

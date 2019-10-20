@@ -79,7 +79,8 @@ public class AutomatedTexter extends BroadcastReceiver {
                 Appointment apt = appointmentsToRemind.get(i);
                 Client clnt = AppointmentDatabase.getInstance(context).clientDAO().getClientByID(apt.getClientID());
                 // Prevent any appointments that have already had a reminder sent, have ANOTHER reminder sent
-                if(apt.getReminderStatus().equals(Appointment.ReminderStatus.SENT.toString()))
+                // Also, don't send a reminder if the client has disabled autoreminders
+                if(apt.getReminderStatus().equals(Appointment.ReminderStatus.SENT.toString()) || clnt.getDisableReminders())
                 {
                     continue;
                 }

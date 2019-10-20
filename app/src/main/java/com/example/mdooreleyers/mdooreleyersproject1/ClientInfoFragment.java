@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -37,6 +38,7 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     private TextView firstNameTxt;
     private TextView lastNameTxt;
     private TextView phoneNumberTxt;
+    private CheckBox disableRemindersBox;
 
     // switch to select out either option (add new or choose client)
     private ConstraintLayout chooseExistingLayout;
@@ -63,6 +65,7 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
         firstNameTxt = (TextView)view.findViewById(R.id.newFirstNameTxt);
         lastNameTxt = (TextView)view.findViewById(R.id.newLastNameTxt);
         phoneNumberTxt = (TextView)view.findViewById(R.id.newPhoneTxt);
+        disableRemindersBox = (CheckBox)view.findViewById(R.id.disableRemindersBox);
 
         addOrChooseSwitch = (Switch)view.findViewById(R.id.clientTypeSwitch);
         addText = (TextView)view.findViewById(R.id.addOption);
@@ -103,20 +106,7 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
         return phoneNumberTxt.getText().toString();
     }
 
-    public void setFirstName(String firstName)
-    {
-        firstNameTxt.setText(firstName);
-    }
-
-    public void setLastName(String firstName)
-    {
-        lastNameTxt.setText(firstName);
-    }
-
-    public void setPhoneNumber(String phoneNumber)
-    {
-        phoneNumberTxt.setText(phoneNumber);
-    }
+    public boolean getDisableReminders() { return disableRemindersBox.isChecked(); }
 
     public void setListener(InflaterListener listener)
     {

@@ -39,6 +39,7 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="phone_number">Phone Number</string>
+    <string name="disable_reminders">Disable automatic reminders for this client</string>
     <string name="appointment_info">Appointment Information</string>
     <string name="start_time">Start Time</string>
     <string name="duration">Duration (mins)</string>
@@ -50,6 +51,7 @@
     <string name="swipe_instruction">Swipe screen left to select appointment date and time.</string>
     <string name="create_appointment">Book It!</string>
     <string name="conflicting_appointment_message">Unable to book because the date/time specified would conflict with another appointment:</string>
+    <string name="unique_constraint_violation">The information you\'ve added for this appointment\'s new client is already in use by another client. Please double check the client\'s information, or select the existing client from the list.</string>
     <string name="title_activity_add_appointment">AddAppointmentActivity</string>
     <string name="back_button">Back</string>
     <string name="back_toast_message">No appointment saved</string>
@@ -93,6 +95,7 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+    <string name="reminders_disabled">Reminders disabled for this client</string>
     <string name="reminder_not_sent">Reminder not yet sent</string>
     <string name="reminder_sent">Reminder sent</string>
     <string name="reminder_failed">Reminder failed to send</string>

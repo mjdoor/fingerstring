@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ public class EditClientActivity extends AppCompatActivity {
     private EditText firstNameBox;
     private EditText lastNameBox;
     private EditText phoneBox;
+    private CheckBox disableRemindersBox;
 
     private Client client;
 
@@ -29,6 +31,7 @@ public class EditClientActivity extends AppCompatActivity {
         firstNameBox = (EditText)findViewById(R.id.firstNameTxt);
         lastNameBox = (EditText)findViewById(R.id.lastNameTxt);
         phoneBox = (EditText)findViewById(R.id.phoneTxt);
+        disableRemindersBox = (CheckBox)findViewById(R.id.clientRemindersBox);
 
         getClient(); // sets this.client to a client with values from the intent
         fillFields();
@@ -58,6 +61,8 @@ public class EditClientActivity extends AppCompatActivity {
         firstNameBox.setText(this.client.getFirstName());
         lastNameBox.setText(this.client.getLastName());
         phoneBox.setText(this.client.getPhoneNumber());
+        disableRemindersBox.setChecked(this.client.getDisableReminders());
+
     }
 
     private void updateClient()
@@ -65,6 +70,7 @@ public class EditClientActivity extends AppCompatActivity {
         this.client.setFirstName(firstNameBox.getText().toString());
         this.client.setLastName(lastNameBox.getText().toString());
         this.client.setPhoneNumber(phoneBox.getText().toString());
+        this.client.setDisableReminders(disableRemindersBox.isChecked());
 
         // checking with unique constraint on phone number
         try
@@ -73,7 +79,7 @@ public class EditClientActivity extends AppCompatActivity {
         }
         catch(SQLiteConstraintException ex) // will throw an error if a new client is attempted to be created with the same phone number as an existing client
         {
-            Toast.makeText(getApplicationContext(), "The phone number you've supplied for this client is already in use by another client. Please double check the phone number before continuing.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.unique_constraint_violation, Toast.LENGTH_LONG).show();
 
             return;
         }

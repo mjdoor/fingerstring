@@ -7,7 +7,7 @@ import android.content.Context;
 
 
 
-@Database(entities = {Appointment.class, Client.class}, version = 1, exportSchema = false)
+@Database(entities = {Appointment.class, Client.class}, version = 2, exportSchema = false)
 public abstract class AppointmentDatabase extends RoomDatabase {
     private static final String DB_NAME = "appointments_DB";
     private static AppointmentDatabase instance;
