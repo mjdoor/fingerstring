@@ -1,5 +1,6 @@
 package com.fingerstring.mdooreleyers.mdooreleyersproject1;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -126,6 +127,15 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                     }
                 });
                 break;
+        }
+
+        //Check if appointment type is set, if not, go to settings
+        if(SharedPreferenceUtility.getStringPreference(this, "settingAppointmentType", getString(R.string.setting_appointment_type_default)).equals(""))
+        {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra("need_appointment_type", true);
+            Toast.makeText(this, R.string.need_appointment_type_message, Toast.LENGTH_LONG).show();
+            startActivity(intent);
         }
     }
 

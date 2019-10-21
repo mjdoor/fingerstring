@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ public class SettingsActivity extends AppCompatActivity {
     Spinner reminderAmPm;
     Spinner reminderAdvanceTime;
     Spinner upcomingAppointmentCutoff;
+    Button backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,13 @@ public class SettingsActivity extends AppCompatActivity {
         reminderAmPm = (Spinner)findViewById(R.id.settingReminderAmPm);
         reminderAdvanceTime = (Spinner)findViewById(R.id.settingReminderAdvance);
         upcomingAppointmentCutoff = (Spinner)findViewById(R.id.settingUpcomingCutoff);
+        backBtn = (Button)findViewById(R.id.settingsBackBtn);
+
+        // Check if we are opening the settings coming from a Add Appointment redirect, (need to set appointment type, so no back button allowed)
+        if(getIntent().getExtras() != null && getIntent().getExtras().getBoolean("need_appointment_type"))
+        {
+            backBtn.setVisibility(View.GONE);
+        }
 
         setupDefaults();
     }
@@ -39,8 +48,6 @@ public class SettingsActivity extends AppCompatActivity {
     // Sets the text fields and values of spinners depending on existing preferences
     private void setupDefaults()
     {
-        SharedPreferences preferences = getSharedPreferences("fingerstring", Context.MODE_PRIVATE);
-
         // Appointment type
         appointmentType.setText(SharedPreferenceUtility.getStringPreference(this, "settingAppointmentType", getString(R.string.setting_appointment_type_default)));
 
@@ -96,6 +103,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void backClick(View view) {
+
         Toast.makeText(this, R.string.update_settings_back, Toast.LENGTH_SHORT).show();
         finish();
     }

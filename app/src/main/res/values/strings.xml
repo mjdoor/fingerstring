@@ -9,13 +9,14 @@
     <string name="update_settings_back">No settings changed</string>
     <string name="update_settings_error">You must provide an appointment type</string>
     <string name="setting_appointment_type">What type of appointment do you offer?</string>
-    <string name="setting_appointment_type_default">massage</string>
+    <string name="setting_appointment_type_default"></string>
     <string name="setting_message_example">e.g. with appointment type \"massage\", the text message reminder to a client named Bob would look something like this: \nHi Bob. This text is just reminding you of your upcoming massage appointment, booked for December 1, 2019 @ 12:00 p.m. See you then!</string>
     <string name="setting_reminder_time">What time do you want automatic reminders to be sent each day?</string>
     <string name="setting_reminder_advance">How many days in advance do you want your clients to be reminded of their appointments?</string>
     <string name="setting_upcoming_cutoff">How far in the future should the Upcoming Appointments menu on the main page capture?</string>
     <string name="word_days">(days)</string>
     <string name="word_weeks">(weeks)</string>
+    <string name="need_appointment_type_message">Please enter the type of appointment you offer before booking an appointment.</string>
     <string name="heading">FingerString Appointments</string>
     <string name="my_name">Mitchell Dooreleyers</string>
     <string name="add_appointment">New Appointment</string>
