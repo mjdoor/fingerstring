@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.mdooreleyers.mdooreleyersproject1"
+        applicationId "com.fingerstring.mdooreleyers.mdooreleyersproject1"
         minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
@@ -38,4 +38,5 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
 
     implementation 'com.applandeo:material-calendar-view:1.5.0'
+    androidTestImplementation 'org.testng:testng:6.9.6'
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.mdooreleyers.mdooreleyersproject1">
+    package="com.fingerstring.mdooreleyers.mdooreleyersproject1">
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -14,37 +14,37 @@
         android:roundIcon="@mipmap/fingerstring_icon_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditClientActivity"
+        <activity android:name="com.fingerstring.mdooreleyers.mdooreleyersproject1.EditClientActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ViewClientsActivity"
+            android:name="com.fingerstring.mdooreleyers.mdooreleyersproject1.ViewClientsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <receiver android:name=".AutomatedTexter" />
+        <receiver android:name="com.fingerstring.mdooreleyers.mdooreleyersproject1.AutomatedTexter" />
 
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.fingerstring.mdooreleyers.mdooreleyersproject1.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".AboutActivity"
+            android:name="com.fingerstring.mdooreleyers.mdooreleyersproject1.AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddAppointmentActivity"
+            android:name="com.fingerstring.mdooreleyers.mdooreleyersproject1.AddAppointmentActivity"
             android:label="@string/title_activity_add_appointment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".ViewAppointmentsActivity"
+            android:name="com.fingerstring.mdooreleyers.mdooreleyersproject1.ViewAppointmentsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.fingerstring.mdooreleyers.mdooreleyersproject1.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
