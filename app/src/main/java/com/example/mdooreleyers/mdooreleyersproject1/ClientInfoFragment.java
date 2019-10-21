@@ -132,7 +132,6 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
 
             if(clients.size() >= 5) // if the user has more than 5 saved clients, by default show the "Choose Existing" screen
             {
-                addOrChooseSwitch.setChecked(true);
                 displayForChoosingClient();
             }
         }
@@ -194,6 +193,7 @@ public class ClientInfoFragment extends Fragment implements ClientAdapter.OnClie
     private void displayForChoosingClient()
     {
         creatingNewClient = false;
+        addOrChooseSwitch.setChecked(true);
 
         chooseText.setTextColor(Color.BLACK);
         addText.setTextColor(Color.LTGRAY);

@@ -119,25 +119,30 @@
 
             <p>The purpose of this app is to help you organize all of your appointment bookings for your clients, and to help them remember their appointment times.</p>
 
-            <p>This app is perfect for anyone with a small business who books clients regularly, and needs a simple and effective way to manage appointment scheduling and reminders.</p>
+            <p>This app is perfect for anyone with a small business who books clients regularly, and needs a simple and effective way to manage appointment scheduling and automatically send text reminders to clients.</p>
 
-            <p>All you have to do is enter an appointment with the client\'s name, phone number, and the appointment date. Then, as the appointment approaches, each client will get a personalized text message reminding him/her about the appointment.</p>
+            <p>All you have to do is enter an appointment with the client\'s name, phone number, and the appointment date. Then, as the appointment time approaches, each client will get a personalized text message reminding them about their appointment.</p>
 
             <p>Before you begin using this app, ensure you have allowed SMS and phone permissions in order for the automatic reminders to work properly. You would have been prompted to turn these permissions on when you first opened the app.</p>
 
             <h2>Usage</h2>
-            <p>To book an appointment, tap the <b>New Appointment</b> button on the home screen. Once there, fill in your client\'s information, and the associated appointment information, on the appropriate tabs.
+            <p>To book an appointment, tap the <b>New Appointment</b> button on the home screen. Once there, you can fill in your client\'s information if they are a new client, or select the client from a list if you\'ve seen them before. Next, swipe to the left to enter the appointment date and time on another tab.
             Then, tap <b>Book It!</b> to save your appointment.<p>
 
-            <p>Any upcoming appointments will appear on the main page. You can reschedule or cancel these appointments by tapping the available buttons. Plus, you can start a text conversation with your client, or call them directly, from the same menu.</p>
+            <p>Any upcoming appointments will appear on the home screen. You can reschedule or cancel these appointments by tapping the available buttons. Plus, you can start a text conversation with your client, or call them directly, from the same menu for convenience.</p>
 
-            <p>To view all saved appointments, not just those occurring soon, tap the <b>View Appointments</b> button on the main page.
+            <p>To view all saved appointments, not just those occurring soon, tap the <b>View Appointments</b> button on the home screen.
                 This will bring you to a calendar, which indicates every day you have at least one appointment booked with a blue circle icon.
             </p>
             <p>On the View Appointments page, select a day to see the appointments scheduled for that day. You can reschedule and cancel appointments, and contact your clients from there as well.</p>
 
+            <p>If you need to change any information relating to a client, tap the <b>Manage Clients</b> button on the home screen, and select the client from the list.
+                Then, you can edit the client\'s information, and tap <b>Save Changes</b> to save.
+                You can also remove a client from the app by tapping the <b>Delete Client</b> button.
+            </p>
+
             <h2>Customizable Settings</h2>
-            <p>Open the Settings menu by tapping the wrench icon at the top right of the main page.</p>
+            <p>Open the Settings menu by tapping the wrench icon at the top right of the home screen.</p>
             <p>In Settings, you can specify:</p>
             <ul>
                 <li>&nbsp;The type of service you provide (which will be used to describe your clients\' appointments in their text reminders)</li>
@@ -148,16 +153,23 @@
 
             <h2>Features:</h2>
             <ul>
-                <li>&nbsp;Every day, FingerString will automatically send a reminder text to all of your clients whose appointments have entered the advance notice time frame, as defined in Settings.</li>
-                <li>&nbsp;Unless you have no appointments within this time frame, you will get a notification when reminders are sent.<br/>
+                <li>&nbsp;Every day, FingerString will automatically send a reminder text to all of your clients whose appointments have entered the advance notice time frame, as defined in Settings.<br/>
+                    &emsp; - If desired, you may disable automatic reminders for individual clients by checking the appropriate checkbox when filling out client information.
+                </li>
+                <li>&nbsp;You will get a notification whenever automatic reminders are sent.<br/>
                     &emsp; - If your permissions are properly set, the notification will simply inform you that reminders were sent.<br/>
                     &emsp; - If permissions aren't set, tapping the notification will bring you to your phone's settings to change the app's permissions.
                 </li>
                 <li>&nbsp;For each appointment, the reminder status will appear to the right of the client's name. If a reminder failed to send, it may be because your permissions were not set at reminder time, or the phone number for the client is formatted incorrectly.</li>
                 <li>&nbsp;Even if your advance notice time frame is multiple days, each client will only receive one reminder per appointment.</li>
                 <li>&nbsp;If you reschedule an existing appointment to a date more than one day away, a reminder with the rescheduled date will be sent to the client at the next scheduled automatic reminder time.</li>
-                <li>&nbsp;You don\'t have to worry about accidentally double booking yourself. When creating and rescheduling appointments, FingerString ensures that no overlap exists between appointments.</li>
+                <li>&nbsp;You don't have to worry about accidentally double booking an appointment. When creating and rescheduling appointments, FingerString ensures that no overlap exists between appointments.</li>
             </ul>
+
+            <h2>Privacy</h2>
+            <p>FingerString Appointments is a completely self-contained application that operates entirely on your device. The information you provide for clients is stored only on your device, and is not shared with anything or anyone.
+                FingerString requires phone permissions only to provide the convenience feature of calling a client from the home screen or View Appointments page, and to check if the phone is in use before sending automatic text reminders.
+                FingerString does not store any text messaging/phone call history.
     ]]>
     </string>
 </resources>

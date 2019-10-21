@@ -322,7 +322,6 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
 
                     this.appointment.setClientID(clientID);
                 }
-                AppointmentDatabase.getInstance(this).appointmentDAO().updateAppointment(this.appointment);
 
                 // We want to change the reminder sent status for the appointment if the reminder has already been sent (or attempted to be sent), and if the new time of the appointment is after
                 // the end of day tomorrow. Any earlier, and we'll assume the client doesn't need another reminder.
@@ -331,6 +330,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements Inflate
                 {
                     this.appointment.setReminderStatus(Appointment.ReminderStatus.NOT_SENT.toString());
                 }
+                AppointmentDatabase.getInstance(this).appointmentDAO().updateAppointment(this.appointment);
 
                 AppointmentDatabase.getInstance(this).setTransactionSuccessful();
                 AppointmentDatabase.getInstance(this).endTransaction();
